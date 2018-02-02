@@ -13,7 +13,14 @@ class Task extends React.Component {
             userId: this.props.userId,
             task: this.props.task
         };
+        this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
     }
+
+    handleCutCopyPaste(e){
+
+        e.preventDefault();
+    }
+
 
     render () {
         let start = localStorage.getItem("counter-start") || 0;
@@ -28,38 +35,32 @@ class Task extends React.Component {
 
         if (AccountStore.isCollaborative()) {
             instructions = (<div>
-                The professor requires all students to demonstrate what they learn about a particular topic by collaboratively conducting searches online and presenting their views on the topic.
-                To prepare your term paper, you and your partner need to collect and save all the web pages, publications, and other online sources that are helpful for you to write a paper.
-                <hr/>
-                After you and your partner have completed the search phase, you will be asked to complete 13 exercises;
-                those exercises include questions about your term paper topic and the writing of an outline for your term paper.
-                The exercises are to be finished individually (without your partner).
             </div>);
         }
 
         return(
-            <div className="Task">
-                <div className="Task-box timer">
+            <div className="Task" onCopy={this.handleCutCopyPaste}>
+
+
+
+
+
+                <div className="Task-box instruction"  id="intro-description" >
                     <div className="Task-submit no-padding">
-                        <TimedSubmit start={start} duration={this.state.task.duration}/>
+                            <TimedSubmit start={start} duration={this.state.task.duration}/>
                     </div>
-                </div>
+                    <hr/>
 
-                <div className="Task-box instruction" id={this.state.task.topic.id}>
-                    <div className="Task-title">
-                        Task Description
-                    </div>
-
-                    <div className="Task-info no-padding" id="intro-description">
+                    <div className="Task-info no-padding">
+                        Together with your partner find the answer to this puzzle, using SearchX only:
+                        <hr/>
                         <div className="Task-instruction-specific">
-                            <div dangerouslySetInnerHTML={{__html: TaskStore.getTopicDescription(this.state.task.topic)}} />
+                         <b> {TaskStore.getTopicDescription(this.state.task.topic)} </b> 
                         </div>
 
                         <hr/>
+                        Remember: don't change your browser tab!
 
-                        <div className="Task-instruction-general">
-                            {instructions}
-                        </div>
                     </div>
                 </div>
             </div>

@@ -41,8 +41,14 @@ export default class BookmarkResult extends React.Component {
             userId: this.props.result.userId
         };
 
-        let clickUrlLog = (e) => log(LoggerEventTypes.BOOKMARK_CLICK_URL, metaInfo);
-        let contextUrlLog = (e) => log(LoggerEventTypes.BOOKMARK_CONTEXT_URL,metaInfo);
+        let clickUrlLog = (e) => {
+            this.props.onClick(this.props.result.url);
+            log(LoggerEventTypes.BOOKMARK_CLICK_URL, metaInfo);
+        }
+        let contextUrlLog = (e) =>  {
+            e.preventDefault();
+            //log(LoggerEventTypes.BOOKMARK_CONTEXT_URL,metaInfo);
+        }
         let hoverEnterSummary = (e) => log(LoggerEventTypes.BOOKMARK_HOVERENTER, metaInfo);
         let hoverLeaveSummary = (e) => log(LoggerEventTypes.BOOKMARK_HOVERLEAVE,metaInfo);
 
@@ -67,7 +73,7 @@ export default class BookmarkResult extends React.Component {
                 </div>
 
                 <h2>
-                    <a href={this.props.result.url} title={this.props.result.title} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                    <a title={this.props.result.title} onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                         {this.props.result.title}
                     </a>
                 </h2>

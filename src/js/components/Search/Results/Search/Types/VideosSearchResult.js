@@ -51,6 +51,7 @@ export default class VideosSearchResult extends React.Component {
         };
 
         let clickUrlLog = (e) => {
+            this.props.onClick(this.props.result.url);
             log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo)
         };
 
@@ -74,8 +75,9 @@ export default class VideosSearchResult extends React.Component {
             log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView)
         };
 
-        let contextUrlLog = () => {
-            log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo)
+        let contextUrlLog = (e) => {
+            e.preventDefault();
+            //log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo)
         };
 
         let hoverEnter = (e) => {
@@ -125,7 +127,7 @@ export default class VideosSearchResult extends React.Component {
                         {this.props.bookmarkButton}
 
                         <h2>
-                            <a href = {this.props.result.contentUrl} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                            <a  onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                                  {this.getTitle(this.props.result.name)}
                             </a>
                         </h2>

@@ -36,7 +36,7 @@ export default class BookmarkResults extends React.Component {
     render() {
         let bookmarks = this.state.bookmarks.map((result, index) => {
             return (
-                <BookmarkResult result={result} index={index} key={index}/>
+                <BookmarkResult result={result} index={index} key={index} onClick={this.props.handleClickedDocument}/>
             );
         });
 

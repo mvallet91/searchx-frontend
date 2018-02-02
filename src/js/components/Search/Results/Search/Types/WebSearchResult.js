@@ -3,10 +3,21 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 import {log} from '../../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../../utils/LoggerEventTypes';
+import Popup from 'react-popup';
+
 
 ////
 
+
 export default class WebSearchResult extends React.Component {
+
+ 
+
+
+    componentDidMount() {
+
+    }
+
     render() {
         let metaInfo = {
             url: this.props.result.url,
@@ -17,6 +28,12 @@ export default class WebSearchResult extends React.Component {
         };
 
         let clickUrlLog = (e) => {
+            
+
+
+            this.props.onClick(this.props.result.url);
+
+
             log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo)
         };
 
@@ -26,7 +43,8 @@ export default class WebSearchResult extends React.Component {
         };
 
         let contextUrlLog = (e) => {
-            log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo)
+            e.preventDefault();
+            //log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL,metaInfo)
         };
 
         let hoverEnterSummary = (e) => {
@@ -49,11 +67,13 @@ export default class WebSearchResult extends React.Component {
                     intervalDelay={2000}
                 />
 
+              
+
                 {this.props.bookmarkButton}
 
                 <div onMouseEnter={hoverEnterSummary} onMouseLeave={hoverLeaveSummary} >
                     <h2>
-                        <a href={this.props.result.url} title={this.props.result.name} target="_blank" onClick={clickUrlLog} onContextMenu={contextUrlLog}>
+                        <a title={this.props.result.name} onClick={clickUrlLog} onContextMenu={contextUrlLog}>
                             {this.props.result.name}
                         </a>
                     </h2>

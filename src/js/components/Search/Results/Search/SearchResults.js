@@ -2,8 +2,29 @@ import './SearchResults.css';
 
 import React from 'react';
 import SearchResult from "./SearchResult";
+import {log} from '../../../../utils/Logger';
+import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
+import $ from 'jquery'
+
+
+
 
 export default class SearchResults extends React.Component {
+
+
+    constructor(props) {
+        super(props);
+
+    }
+
+
+    componentDidMount() {
+
+
+    }
+
+
+
     render() {
 
         let results = this.props.results.map((result, index) => {
@@ -16,11 +37,17 @@ export default class SearchResults extends React.Component {
                 bookmark: 0
             };
 
-            return(<SearchResult {...props} key={index}/>);
+            return(<SearchResult {...props} key={index} onClick={this.props.handleClickedDocument}/>);
         });
+
+
+
 
         return (
             <div className={"row SearchResults"} id="intro-search-results">
+            
+            
+
                 {results}
             </div>
         )

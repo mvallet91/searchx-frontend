@@ -13,6 +13,7 @@ import VideosSearchResult from './Types/VideosSearchResult';
 import {log} from '../../../../utils/Logger';
 import {LoggerEventTypes} from '../../../../utils/LoggerEventTypes';
 
+
 ////
 
 export default class SearchResult extends React.Component {
@@ -94,9 +95,10 @@ export default class SearchResult extends React.Component {
         }
 
         ////
-
+        
         return (
             <div>
+                
                 {this.props.vertical === 'web' && <WebSearchResult {...this.props} bookmarkButton={bookmarkButton} bookmarkInfo={bookmarkInfo}/>}
                 {this.props.vertical === 'news' && <NewsSearchResult {...this.props} bookmarkButton={bookmarkButton} bookmarkInfo={bookmarkInfo}/>}
                 {this.props.vertical === 'images' && <ImagesSearchResult {...this.props} bookmarkButton={bookmarkButton} bookmarkInfo={bookmarkInfo}/>}

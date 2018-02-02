@@ -14,6 +14,9 @@
     margin-left: 14px
 }
 
+a { cursor: pointer; }
+
+
 .Footer {
     color: $description-grey;
     display: block;

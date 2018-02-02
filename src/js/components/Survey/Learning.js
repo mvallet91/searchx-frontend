@@ -76,8 +76,13 @@ class Learning extends React.Component {
         if (this.state.task.topic !== '') {
             if (!IntroStore.isIntroDone()) {
                 IntroStore.startIntro();
-            } else {
-                if (AccountStore.isCollaborative()) {
+            }
+            
+            var switchTabs = localStorage.getItem("switch-tabs-search") || 0;
+
+            if (AccountStore.isCollaborative()) {
+
+                if (switchTabs  < 2) {
                     initializeChat();
                 }
             }
@@ -101,11 +106,20 @@ class Learning extends React.Component {
     ////
 
     render() {
+        
+
         if (this.state.task.topic === '' || TaskStore.isOverSwitchTabsLimit()) {
             return (
                 <div/>
             );
         }
+
+        var switchTabs = localStorage.getItem("switch-tabs-search") || 0;
+        if (switchTabs >= 2) {
+            return (<div/>)
+        }
+
+
 
         ////
 
@@ -131,6 +145,7 @@ class Learning extends React.Component {
 ////
 
 const initializeChat = function() {
+
     const chatRoom = 'searchx-' + AccountStore.getSessionId() + '@conference.nomnom.im';
 
     converse.initialize({

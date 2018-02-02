@@ -35,7 +35,8 @@ let getSearchState = () => {
         activePage: SearchStore.getPageNumber(),
         elapsedTime : ((SearchStore.getElapsedTime())/1000).toFixed(2).toString(),
         resultsNotFound : SearchStore.isResultsNotFound(),
-        showPopup: false
+        showPopup: false,
+        clickedUrl: ""
     }
 };
 
@@ -46,6 +47,11 @@ export default class ResultsPage extends React.Component {
         super();
         this.state = getSearchState();
         this._onChange = this._onChange.bind(this);
+
+
+        this.handleClickedDocument = this.handleClickedDocument.bind(this);
+        this.handleCloseDocument = this.handleCloseDocument.bind(this);
+
     }
 
     componentWillMount() {
@@ -54,6 +60,18 @@ export default class ResultsPage extends React.Component {
 
     componentWillUnmount() {
         SearchStore.removeChangeListener(this._onChange);
+    }
+
+    componentDidMount(){
+        var modal = document.getElementById('myModal');
+
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = this.handleCloseDocument;
     }
 
     ////
@@ -79,6 +97,39 @@ export default class ResultsPage extends React.Component {
         });
     }
 
+
+    handleClickedDocument(url){
+        
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block";
+
+        this.setState({ clickedUrl: url});
+
+    }
+
+
+    handleCloseDocument(){
+        
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+
+
+        let metaInfo = {
+            url: this.state.clickedUrl,
+            query: this.props.query,
+            page: this.props.page,
+            vertical: this.props.vertical,
+            serp_id: this.props.serp_id,
+        };
+
+        log(LoggerEventTypes.DOCUMENT_CLOSE, metaInfo)
+
+        this.setState({ clickedUrl: ""});
+        
+    }
+
+
+
     ////
 
     render() {
@@ -91,12 +142,38 @@ export default class ResultsPage extends React.Component {
 
         ////
 
+        let hoverEnterDocument = (e) => {
+
+            let metaInfo = {
+                url: this.state.clickedUrl,
+                query: this.props.query,
+                page: this.props.page,
+                vertical: this.props.vertical,
+                serp_id: this.props.serp_id,
+            };
+
+            log(LoggerEventTypes.DOCUMENT_HOVERENTER, metaInfo)
+        };
+
+        let hoverLeaveDocument = (e) => {
+            let metaInfo = {
+                url: this.state.clickedUrl,
+                query: this.props.query,
+                page: this.props.page,
+                vertical: this.props.vertical,
+                serp_id: this.props.serp_id,
+            };
+            log(LoggerEventTypes.DOCUMENT_HOVERLEAVE,metaInfo)
+        };
+
+
+
         let mainPage = <SearchResultsNotFound/>;
         if (!SearchStore.isResultsNotFound()) {
             mainPage = (
                 <div>
                     <div className="SearchResults">
-                        {this.state.results.length > 0 ? <p className="TimeIndicator"> {timeIndicator} </p> : ""}
+                       
 
                         <SearchResults
                             results={this.state.results}
@@ -104,6 +181,7 @@ export default class ResultsPage extends React.Component {
                             vertical={this.state.vertical}
                             page={this.state.activePage}
                             serp_id={this.state.serp_id}
+                            handleClickedDocument={this.handleClickedDocument}
                         />
 
                         {SearchStore.isQuerySubmitted() &&
@@ -111,13 +189,6 @@ export default class ResultsPage extends React.Component {
                         }
                     </div>
 
-                    <SearchResultsPagination
-                        vertical={this.state.vertical}
-                        length={this.state.matches}
-                        activePage={this.state.activePage}
-                        handlePageChange={this.handlePageChange.bind(this)}
-                        finished={this.state.results.length > 0 || SearchStore.isFinished()}
-                    />
                 </div>
             );
         }
@@ -126,20 +197,38 @@ export default class ResultsPage extends React.Component {
 
         return (
             <div className="row ResultsPage" id="intro-collab-color">
+
                 <div className="MainPage col-md-8 col-sm-12 col-xs-12">
                     {mainPage}
                 </div>
 
                 <div className="Sidebar col-md-4 col-sm-12 col-xs-12">
                     <PreviousQueries/>
-                    <BookmarkResults/>
+                    <BookmarkResults handleClickedDocument={this.handleClickedDocument}/>
+                </div>
+
+
+                <div id="myModal" className="modal">
+
+
+                <div className="modal-content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} >
+                <span className="close">&times;</span>
+                    { this.state.clickedUrl != "" ?
+                    <iframe id="render-page" height="500" width="100%" scrolling="yes" frameBorder="0" src={"http://ec2-34-244-240-231.eu-west-1.compute.amazonaws.com:3000/render/" +  this.state.clickedUrl }>
+
+                    </iframe>
+                    : ""
+                    }
+                    
+                    </div>
+
                 </div>
 
                 <div className="w-100"/>
-                <div className="col-xs-12 text-center" >
+                {/* <div className="col-xs-12 text-center" >
                     <hr/>
                     <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
-                </div>
+                </div> */}
             </div>
         );
     }

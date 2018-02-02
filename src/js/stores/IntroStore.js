@@ -111,7 +111,7 @@ const stepsTask = [
     {
         element: '#intro-description',
         intro: 'Please take a minute to read your task description.',
-        position: 'top'
+        position: 'left'
     }
 ];
 
@@ -131,7 +131,7 @@ const stepsSearch = [
     },
     {
         element: '#intro-search-bar',
-        intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
+        intro: 'Use only SearchX to search for webpages, publications, and other online sources about the topic.'
     },
     {
         element: '#intro-query-history',
@@ -158,22 +158,22 @@ const stepsSearchCollaborative = [
     },
     {
         element: '#intro-search-bar',
-        intro: 'Use SearchX to search for webpages, publications, and other online sources about the topic.'
+        intro: 'Use only SearchX to search for webpages, publications, and other online sources about the topic.'
     },
     {
         element: '#intro-query-history',
         intro: 'The query history shows your and your partner\'s past search queries. In this manner you both see what the other is doing.',
-        position: 'top'
+        position: 'left'
     },
     {
         element: '#intro-search-results',
         intro: 'To save a resource that is useful for your term paper, bookmark it. You also see your partner\'s bookmarks here.',
-        position: 'top'
+        position: 'right'
     },
     {
         element: '#intro-bookmark-bar',
-        intro: 'The documents you and your partner bookmarked will appear here. You can revisit them before completing the final test.',
-        position: 'top'
+        intro: 'The documents you and your partner bookmarked will appear here. You can revisit them before going to the next step.',
+        position: 'left'
     }
 ];
 
@@ -181,11 +181,11 @@ const stepsCollaborative = [
     {
         element: '#intro-collab-color',
         intro: 'The query history and bookmarks are color-coded to show who (you or your partner) initiated the action.',
-        position: 'top'
+        position: 'right'
     },
     {
         element: '#intro-collab-chat',
-        intro: 'Please use the provided  chat window to collaborate with your partner during the learning phase.',
+        intro: 'Please use the provided chat window to collaborate with your partner during the search.',
         position: 'auto'
     }
 ];
@@ -193,7 +193,7 @@ const stepsCollaborative = [
 const stepsSubmit = [
     {
         element: '#intro-counter',
-        intro: 'You will need to learn for 20 minutes. Afterwards, you can press the button to complete the final test. Good luck and have fun!',
+        intro: 'When you and your partner have found the answer click here. Do not change tabs/windows, we will cancel your participation. Good luck and have fun!',
         position: 'bottom'
     }
 ];

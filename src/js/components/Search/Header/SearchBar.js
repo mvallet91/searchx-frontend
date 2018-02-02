@@ -10,6 +10,9 @@ import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
+import TaskStore from '../../../stores/TaskStore';
+
+import AccountStore from "../../../stores/AccountStore";
 
 ////
 

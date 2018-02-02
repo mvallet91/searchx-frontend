@@ -6,7 +6,7 @@ import SearchActions from "../actions/SearchActions";
 import SessionActions from "../actions/SessionActions";
 
 const env = require('env');
-const socket = io(env.serverUrl + '/group');
+const socket = io(env.serverUrl + '/session');
 
 ////
 

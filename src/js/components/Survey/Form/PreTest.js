@@ -30,7 +30,6 @@ export default class PreTest extends React.Component {
         this.handleTimeout = this.handleTimeout.bind(this);
         this.handleComplete = this.handleComplete.bind(this);
 
-        this.handleSingleSetup = this.handleSingleSetup.bind(this);
         this.handleTaskSetup = this.handleTaskSetup.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
         this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -104,7 +103,7 @@ export default class PreTest extends React.Component {
 
     handleLeave(e) {
         SyncStore.emitUserLeave();
-        TaskStore.clearTopics();
+
 
         log(LoggerEventTypes.SURVEY_EXIT, {
             step : "pretest",
@@ -123,23 +122,12 @@ export default class PreTest extends React.Component {
 
         const scores = TaskStore.getScoresFromResults(result.data);
 
-        if (!AccountStore.isCollaborative()) {
-            this.handleSingleSetup(scores);
-        } else {
-            SyncStore.emitPretestScore(scores);
-            this.setState({isComplete: true});
+        SyncStore.emitPretestScore(scores);
+        this.setState({isComplete: true});
 
-            sleep(config.groupTimeout * 60 * 1000).then(() => {
-                if (!this.state.partnerJoined) this.handleTimeout()
-            });
-        }
-    }
-
-    handleSingleSetup(scores) {
-        const topicId = scores[0].topicId;
-        const topic = TaskStore.getTopicById(topicId);
-
-        this.handleTaskSetup(topic);
+        sleep(config.groupTimeout * 60 * 1000).then(() => {
+            if (!this.state.partnerJoined) this.handleTimeout()
+        });
     }
 
     handleTaskSetup(topic) {
@@ -219,7 +207,7 @@ export default class PreTest extends React.Component {
                 offset: 100
             });
 
-            if (switchTabs >= 3) {
+            if (switchTabs >= 2) {
                 SyncStore.emitUserLeave();
                 window.location.reload();
             }
@@ -229,10 +217,13 @@ export default class PreTest extends React.Component {
     ////
 
     render() {
-        if (!TaskStore.isTopicsPresent()) {
-            this.props.history.push('/register');
-            this.props.history.go();
+
+        var switchTabs = localStorage.getItem("switch-tabs-search") || 0;
+        if (switchTabs >= 2) {
+            return (<div/>)
         }
+
+
 
         if (this.state.isComplete) {
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
@@ -253,11 +244,10 @@ export default class PreTest extends React.Component {
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
-                            <h2>Waiting for another Prolific worker to join...</h2>
+                            <h2>Waiting for another worker to join...</h2>
                             <h3>You will be doing a collaborative search study. We are still waiting for your partner to join.</h3>
                             <h3>Please do not refresh/exit this page yet.</h3>
-                            <h3>If after {config.groupTimeout} minutes there is still no update, please stop the study.</h3>
-                            <h3>Once you drop out after waiting, we will provide you with a partial payment for completing the Diagnostic test.</h3>
+                            <h3>If after {config.groupTimeout} minutes there is still no update, we ill provide you with the return code.</h3>
                             {this.state.partnerJoined &&
                                 <div>
                                     <hr/>
@@ -269,11 +259,7 @@ export default class PreTest extends React.Component {
                                 <div>
                                     <hr/>
                                     <h2>Sorry, we weren't able to find you a partner in time.</h2>
-                                    <h3>PLEASE <b>stop the study without completion</b> (option 'Stop without completing').
-                                        We will still provide you with a partial payment through the bonus payment system.</h3>
-                                    <h3>DO NOT submit a completion (option 'I've finished' or 'Submit study'),
-                                        or else we would have to reject your completion (which would decrease your rating).</h3>
-                                    <h3>Thank you for taking part in our study.</h3>
+                                    <h3>PLEASE use this Return code: </h3>.
                                 </div>
                             }
                         </div>
@@ -284,8 +270,8 @@ export default class PreTest extends React.Component {
 
         ////
 
-        const switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
-        if (switchTabs >= 3) {
+        switchTabs = localStorage.getItem("switch-tabs-pretest") || 0;
+        if (switchTabs >= 2) {
             return (
                 <div className="Survey">
                     <div className="Survey-form">

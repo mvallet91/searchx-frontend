@@ -39,6 +39,8 @@ class TimedSubmit extends React.Component {
         return num;
     }
 
+
+
     clickHandler(){
         log(LoggerEventTypes.SURVEY_LEARNING_DONE, {
             elapsedTime: Math.round(this.state.elapsed / 1000),
@@ -64,28 +66,24 @@ class TimedSubmit extends React.Component {
             seconds = 0;
         }
 
-        let active = minutes < this.state.duration ? "disabled" : "active";
-        if (AccountScore.getTaskType() === "video") {
-            active = "active";
-        }
+        let active = "active";
+
 
         let message = null;
-        if (active !== 'active') message = "Please continue learning for at least " + this.state.duration + " minutes.";
+        if (active !== 'active') message = "Please continue searching for at least " + this.state.duration + " minutes.";
         if (!started) message = "Finish the introduction tour to start the counter. You may need to reload this page to start the tour.";
 
         return (
             <div id="intro-counter">
-                <div className="counter">
-                    {minutes}:{this.padZero(seconds)}
-                </div>
 
-                <Link className={"btn btn-primary " + active} to={AccountScore.getTaskType() === "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
-                    {AccountScore.getTaskType() === "video" ? "To Search Phase": "To Final Test"}
+
+                <Link className={"btn btn-primary"} to={AccountScore.getTaskType() === "search" ? "/posttest": "/learning"} role="button" onClick={this.clickHandler}>
+                    {AccountScore.getTaskType() === "video" ? "To Search Phase": "We found the answer"}
                 </Link>
 
                 <div>
-                    <br/>
-                    {message !== null && message}
+             
+                  
                 </div>
             </div>
         )

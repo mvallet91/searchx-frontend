@@ -12,6 +12,7 @@ import PreTest from './Survey/Form/PreTest';
 import PostTest from './Survey/Form/PostTest';
 import Register from './Survey/Form/Register';
 import Welcome from './Survey/Welcome';
+import MobileDetect from 'mobile-detect';
 
 const config = require('../config');
 
@@ -22,7 +23,15 @@ export class App extends React.Component {
         setInterval(flush, config.logTimeInterval);
     };
 
+
+
     render() {
+        var md = new MobileDetect(window.navigator.userAgent);
+
+        if (md.mobile() !== null) {
+            return (<div/>)
+        }
+
         return (
             <Router history={history}>
                 <div>

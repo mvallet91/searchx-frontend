@@ -15,11 +15,13 @@ export default class PostTest extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isComplete: localStorage.getItem('finish') === 'true'
+            isComplete: localStorage.getItem('finish') === 'true',
+            isCorrect: localStorage.getItem('correct') === 'true'
         };
 
         this.handleComplete = this.handleComplete.bind(this);
         this.handleCutCopyPaste = this.handleCutCopyPaste.bind(this);
+        this.findCorrect = this.findCorrect.bind(this);
     }
 
     ////
@@ -46,18 +48,35 @@ export default class PostTest extends React.Component {
         }
     }
 
-    ////
+    findCorrect(results){
+        results.answer = results.answer.replace(/^\s+|\s+$/g, "")
+        
+        for (var answer in AccountStore.getTask().topic.answer) {
+            if (results.answer == AccountStore.getTask().topic.answer[answer]) {
+                localStorage.setItem('correct', true);
+                return true;
+            }
+        }
+
+        localStorage.setItem('correct', false);
+
+        return false;
+    }
+
 
     handleComplete(result){
         log(LoggerEventTypes.SURVEY_POST_TEST_RESULTS, {
             results: result.data
         });
 
+        var isCorrect = this.findCorrect(result.data);
+
         AccountStore.clearTask();
         localStorage.setItem('finish', true);
 
         this.setState({
-            isComplete: true
+            isComplete: true,
+            isCorrect: isCorrect
         });
     }
 
@@ -127,24 +146,36 @@ export default class PostTest extends React.Component {
                 });
             }
 
-            if (switchTabs >= 3) {
+            if (switchTabs >= 2) {
                 window.location.reload();
             }
         }
     }
 
-    ////
 
     render() {
+
+
         if (this.state.isComplete) {
             document.removeEventListener("visibilitychange", this.handleVisibilityChange);
-
+            if (this.state.isCorrect == false) {
+                return (
+                    <div className="Survey">
+                        <div className="Survey-form">
+                            <div className='Survey-complete' onCopy={this.handleCutCopyPasteDismute}>
+                                <h2>Thanks for your participation!</h2>
+                                <h3>You did not insert the correct answer, we will not give you the return code.</h3>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
             return (
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete' onCopy={this.handleCutCopyPasteDismute}>
                             <h2>Thanks for your participation!</h2>
-                            <h3>Follow this <a href={config.completionURL}> link</a> back to Prolific Academic to confirm your participation.</h3>
+                            <h3>Please, copy and paste this code on CrowdFlower: {TaskStore.getFinishCode(AccountStore.getId())}  .</h3>
                         </div>
                     </div>
                 </div>
@@ -153,19 +184,35 @@ export default class PostTest extends React.Component {
 
         ////
 
-        const switchTabs = localStorage.getItem("switch-tabs-posttest") || 0;
-        if (switchTabs >= 3) {
+        var switchTabs = localStorage.getItem("switch-tabs-posttest") || 0;
+        if (switchTabs >= 2) {
             return (
                 <div className="Survey">
                     <div className="Survey-form">
                         <div className='Survey-complete'>
                             <h2>We are sorry!</h2>
-                            <h3>You have changed to a different tab/windows more than three times, we have cancelled your participation.</h3>
+                            <h3>You have changed to a different tab/windows more than twice, we have cancelled your participation.</h3>
                         </div>
                     </div>
                 </div>
             );
         }
+
+        switchTabs = localStorage.getItem("switch-tabs-search") || 0;
+
+        if (switchTabs >= 2) {
+            return (
+                <div className="Survey">
+                    <div className="Survey-form">
+                        <div className='Survey-complete'>
+                            <h2>We are sorry!</h2>
+                            <h3>You have changed to a different tab/windows during searching, we have cancelled your participation.</h3>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
 
         ////
 

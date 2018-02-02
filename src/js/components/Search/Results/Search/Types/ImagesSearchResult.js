@@ -17,6 +17,7 @@ export default class ImagesSearchResult extends React.Component {
         };
 
         let clickUrlLog = (e) => {
+            this.props.onClick(this.props.result.url);
             log(LoggerEventTypes.SEARCHRESULT_CLICK_URL, metaInfo);
         };
 
@@ -25,8 +26,8 @@ export default class ImagesSearchResult extends React.Component {
             log(LoggerEventTypes.SEARCHRESULT_VIEW_URL, metaInfoView)
         };
 
-        let contextUrlLog = (isVisible) => {
-            log(LoggerEventTypes.SEARCHRESULT_CONTEXT_URL, metaInfo);
+        let contextUrlLog = (e) => {
+            e.preventDefault();
         };
 
         let hoverEnter = (e) => {
@@ -48,9 +49,9 @@ export default class ImagesSearchResult extends React.Component {
                         intervalDelay={2000}
                 />
 
-                <a  href={this.props.result.url}
+                <a  
                     title={this.props.result.name}
-                    target="_blank"
+              
                     onClick={clickUrlLog}
                     onContextMenu={contextUrlLog}
                     onMouseEnter={hoverEnter} onMouseLeave={hoverLeave}>

@@ -2,22 +2,10 @@ import request from 'superagent';
 import EventEmitter from 'events';
 import AccountStore from "./AccountStore";
 
+import codes from '../../../dist/data/codes.json';
+
 const env = require('env');
 
-////
-
-const choices = [
-    {value: 1, text: "I don't remember having seen this term/phrase before." }, 
-    {value: 2, text: "I have seen this term/phrase before, but I don't think I know what it means."}, 
-    {value: 3, text: "I have seen this term/phrase before, and I think I know what it means."},
-    {value: 4, text: "I know this term/phrase."}
-];
-
-let state = {
-    topics: JSON.parse(localStorage.getItem("topics")) || ''
-};
-
-////
 
 const TaskStore = Object.assign(EventEmitter.prototype, {
     initializeTask(callback) {
@@ -32,31 +20,10 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
 
                 if(res) {
                     const data = res.body;
-                    this.setTopics(data.topics);
-
-                    if(data.topic) {
-                        AccountStore.setTask(data.topic);
-                        AccountStore.setGroup(data._id, data.members);
-                        url = '/learning';
-                    }
                 }
 
                 callback(url);
             })
-    },
-
-    setTopics(topics) {
-        localStorage.setItem("topics", JSON.stringify(topics));
-        state.topics = topics;
-    },
-
-    clearTopics() {
-        localStorage.removeItem("topics");
-        state.topics = '';
-    },
-
-    isTopicsPresent() {
-        return state.topics !== '';
     },
 
     ////
@@ -68,12 +35,6 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     getTopicVideo(topic) {
         const prefix = "https://www.youtube.com/watch?v=";
         return prefix + topic.youtube;
-    },
-
-    getTopicById(topicId) {
-        const topic = state.topics.filter(x => x.id === topicId);
-        if (topic.length > 0) return topic[0];
-        return null;
     },
 
     ////
@@ -124,17 +85,30 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
     },
 
     getPreTest() {
-        return preTestPage(state.topics);
+        return preTestPage();
     },
 
     getPostTest() {
         return postTestPage(AccountStore.getTaskTopic());
     },
 
-    ////
+    surveyValidateQuestion (s, options) {
+        if (options.name === 'userId') {
+            const userId = options.value;
+            
+            if(!codes[userId.replace(/^\s+|\s+$/g, "")]) {
+                options.error = "This User Code is not valid, please check if you have copied and pasted the code correctly.";
+            }
+        }
+    }, 
+
+
+    getFinishCode(userCode){
+        return codes[userCode.replace(/^\s+|\s+$/g, "")];
+    },
 
     surveyValidateWordCount (s, options) {
-        if (options.name === 'summary') {
+        if (options.name === 'describe') {
             const text = options.value;
             const c = text.split(" ").length;
 
@@ -144,6 +118,7 @@ const TaskStore = Object.assign(EventEmitter.prototype, {
         }
     }
 });
+
 
 ////
 
@@ -155,7 +130,6 @@ const registerInfoPage = function() {
         type: "html",
         name: "topic",
         html: "<h2>Registration</h2>" +
-        "<h3>Let's find out what you already know first.</h3>" +
         "<h3>First fill out this basic information about you.</h3>"
     });
 
@@ -165,7 +139,7 @@ const registerInfoPage = function() {
     });
 
     elements.push({
-            title: "Insert your Prolific ID here",
+            title: "Insert your code here",
             name : "userId",
             type :"text",
             inputType:"text",
@@ -239,19 +213,6 @@ const registerInfoPage = function() {
         html: "<hr/>"
     });
 
-    elements.push({
-        title: "How often do you use Web search engine (e.g., Google, Bing, Yahoo) when you want to learn about something?",
-        name: "search-frequency",
-        type: "radiogroup",
-        isRequired: true,
-        choices: [
-            {value: 0, text: "More than 10 times a day"},
-            {value: 1, text: "1-10 times a day"},
-            {value: 2, text: "Once a day"},
-            {value: 3, text: "Every few days"},
-            {value: 4, text: "Never"}
-        ]
-    });
 
     pages.push({elements:  elements});
     return {
@@ -261,52 +222,9 @@ const registerInfoPage = function() {
     }
 };
 
-const preTestPage = function(topics) {
+const preTestPage = function() {
     let pages = [];
     let elements = [];
-
-    topics.forEach(topic => {
-        elements = [];
-
-        elements.push({
-            type: "html",
-            name: "topic",
-            html: "<h2>Diagnostic Test</h2> " +
-            "<h3>Let's find out what you already know first.</h3>" +
-            "<h3>Answer these questions about <b>" + topic.title + "</b>:</h3>"
-        });
-
-        topic.terms.forEach((term, idx) => {
-            const name = "Q-"+ topic.id +"-"+ idx;
-
-            elements.push({
-                type: "html",
-                html: "<hr/>"
-            });
-
-            elements.push({
-                title: "How much do you know about \"" + term + "\"?",
-                type: "radiogroup",
-                isRequired: true,
-                name: name,
-                choices: choices
-            });
-
-            elements.push({
-                title: "In your own words, what do you think the meaning is?",
-                visibleIf: "{" + name + "} > 2",
-                name: "meaning-" + name,
-                type: "text",
-                inputType: "text",
-                width: 500,
-                isRequired: true
-            });
-        });
-
-        pages.push({elements:  elements});
-    });
-
-    ////
 
     if (AccountStore.isCollaborative()) {
         elements = [];
@@ -441,76 +359,29 @@ const postTestPage = function(topic) {
     elements.push({
         type: "html",
         name: "topic",
-        html: "<h2>Final Exercises</h2>" +
-        "<h3>Let's see how much you've learned.</h3>" +
-        "<h3>Answer these questions about <b>" + topic.title + "</b>:</h3>"
+        html: "<h2>Post Questionnaire</h2>"
     });
 
-    topic.terms.forEach((term, idx) => {
-        const name = "Q-"+ topic.id +"-"+ idx;
-
-        elements.push({
-            type: "html",
-            html: "<hr/>"
-        });
-
-        elements.push({
-            title: "How much do you know about \"" + term + "\"?",
-            type: "radiogroup",
-            isRequired: true,
-            name: name,
-            choices: choices
-        });
-
-        elements.push({
-            title: "In your own words, what do you think the meaning is?",
-            visibleIf: "{" + name + "} > 2",
-            name: "meaning-" + idx,
-            type: "text",
-            inputType: "text",
-            width: 500,
-            isRequired: true,
-        });
-    });
-
-    pages.push({elements:  elements});
 
     ////
 
     elements = [];
 
-    elements.push({
-        type: "html",
-        name: "outline-description",
-        html: "<b> Based on what you have learned from the learning session, please write an outline for your paper. </b>" +
-        "<p> Tip: An outline is an organizational plan to help you draft a paper. Here is a simple template example: </p>" +
-
-        "<p> 1. Introduction</p>" +
-        "<p> 1.1. Main argument: ...</p>" +
-        "<p> 1.2 Purpose of the paper: ... </p>" +
-
-        "<p> 2. Body </p>" +
-        "<p> 2.1 Argument 1: ....</p>" +
-        "<p> 2.2 Argument 2: .... </p>" +
-
-        "<p> 3. Conclusions</p>" +
-        "<p> Summary: ....</p>"
-    });
 
     elements.push({
-        title: "Write your outline here:",
-        name: "outline-paper",
-        type: "comment",
+        title: "Write your answer to the puzzle:",
+        name: "answer",
+        type: "text",
         inputType: "text",
         description: "",
-        width: 600,
-        rows: 6,
+        width: 230,
+        rows: 1,
         isRequired: true
     });
 
     elements.push({
-        title: "Please write what you have learned about this topic from the learning session. Use at least 50 words.",
-        name: "summary",
+        title: "Please write what you and your partner did to find the answer. Use at least 50 words.",
+        name: "describe",
         type: "comment",
         inputType: "text",
         width: 600,
@@ -536,7 +407,7 @@ const postTestPage = function(topic) {
     }
 
     elements.push({
-        title: "Do you have any additional comments regarding the learning phase?",
+        title: "Do you have any additional comments?",
         name: "additional-comment",
         type: "comment",
         inputType: "text",

@@ -170,11 +170,14 @@ const _search = (query, pageNumber) => {
     SearchStore.emitChange();
 
     ////
-
+    
+    var newQuery = state.query + " -(\"" + AccountStore.getTask().topic.task.replace(/['"]+/g, '') + "\") -(googleaday) -(site:youtube.com) -(\"google a day\") ";
+    newQuery = newQuery.replace(/['"]+/g, '');
+    
     request
         .get(env.serverUrl + '/v1/search/'+state.vertical
-            + '/?query='+ state.query
-            + '&page='+ pageNumber
+            + '/?query='+ newQuery
+            + '&page=2'
             + '&userId='+ AccountStore.getId()
             + '&sessionId='+ AccountStore.getSessionId()
         )
