@@ -15,6 +15,7 @@ import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import PreviousQueries from "./Sidebar/PreviousQueries";
 
+const env = require('env');
 const config = require('../../../config');
 const Loader = require('react-loader');
 
@@ -63,12 +64,8 @@ export default class ResultsPage extends React.Component {
     }
 
     componentDidMount(){
-        var modal = document.getElementById('myModal');
-
-
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
+        const span = document.getElementsByClassName("close")[0];
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = this.handleCloseDocument;
@@ -99,20 +96,16 @@ export default class ResultsPage extends React.Component {
 
 
     handleClickedDocument(url){
-        
-        var modal = document.getElementById('myModal');
+        const modal = document.getElementById('modal-container');
         modal.style.display = "block";
 
         this.setState({ clickedUrl: url});
-
     }
 
 
     handleCloseDocument(){
-        
-        var modal = document.getElementById('myModal');
+        const modal = document.getElementById('modal-container');
         modal.style.display = "none";
-
 
         let metaInfo = {
             url: this.state.clickedUrl,
@@ -122,13 +115,9 @@ export default class ResultsPage extends React.Component {
             serp_id: this.props.serp_id,
         };
 
-        log(LoggerEventTypes.DOCUMENT_CLOSE, metaInfo)
-
+        log(LoggerEventTypes.DOCUMENT_CLOSE, metaInfo);
         this.setState({ clickedUrl: ""});
-        
     }
-
-
 
     ////
 
@@ -194,10 +183,8 @@ export default class ResultsPage extends React.Component {
         }
 
         ////
-
         return (
             <div className="row ResultsPage" id="intro-collab-color">
-
                 <div className="MainPage col-md-8 col-sm-12 col-xs-12">
                     {mainPage}
                 </div>
@@ -207,28 +194,21 @@ export default class ResultsPage extends React.Component {
                     <BookmarkResults handleClickedDocument={this.handleClickedDocument}/>
                 </div>
 
-
-                <div id="myModal" className="modal">
-
-
-                <div className="modal-content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} >
-                <span className="close">&times;</span>
-                    { this.state.clickedUrl != "" ?
-                    <iframe id="render-page" height="500" width="100%" scrolling="yes" frameBorder="0" src={"http://ec2-34-244-240-231.eu-west-1.compute.amazonaws.com:3000/render/" +  this.state.clickedUrl }>
-
-                    </iframe>
-                    : ""
-                    }
-                    
+                <div id="modal-container" className="modal">
+                    <div className="modal-content" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument} >
+                        <span className="title">{this.state.clickedUrl}</span>
+                        <span className="close">&times;</span>
+                        {this.state.clickedUrl !== "" &&
+                            <iframe id="render-page"
+                                    height="96%"
+                                    width="100%"
+                                    scrolling="yes"
+                                    frameBorder="0"
+                                    src={env.renderUrl + '/' + this.state.clickedUrl}>
+                            </iframe>
+                        }
                     </div>
-
                 </div>
-
-                <div className="w-100"/>
-                {/* <div className="col-xs-12 text-center" >
-                    <hr/>
-                    <p className="Footer"> About <a href="/about" target="_blank">SearchX</a>.</p>
-                </div> */}
             </div>
         );
     }
