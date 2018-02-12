@@ -145,7 +145,7 @@ class Learning extends React.Component {
 ////
 
 const initializeChat = function() {
-
+    sessionStorage.clear();
     const chatRoom = 'searchx-' + AccountStore.getSessionId() + '@conference.nomnom.im';
 
     converse.initialize({
