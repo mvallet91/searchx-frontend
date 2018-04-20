@@ -7,8 +7,6 @@ import constants from "./constants";
 import AccountStore from "../../../stores/AccountStore";
 import IntroStore from "../../../stores/IntroStore";
 
-
-
 class Session extends React.PureComponent {
     constructor() {
         super();
@@ -51,7 +49,7 @@ class Session extends React.PureComponent {
 }
 
 
-const introSteps = [
+let introSteps = [
     {
         element: '.Task',
         intro:  
@@ -105,5 +103,18 @@ const introSteps = [
         position: 'auto'
     }
 ];
+
+introSteps = introSteps.map((step, index) => {
+    console.log(index);
+    console.log(introSteps.length);
+    if (index === introSteps.length - 1) {
+        return step;
+    } else {
+        step.tooltipClass = 'noSkipButton';
+        return step;
+    }
+});
+
+console.log(introSteps);
 
 export default Session;

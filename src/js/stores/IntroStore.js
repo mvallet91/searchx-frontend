@@ -15,6 +15,7 @@ const intro = introJs().setOptions({
     showBullets: false,
     exitOnOverlayClick: false,
     disableInteraction: true,
+    exitOnEsc: false
 });
 
 let state = {
@@ -47,13 +48,10 @@ const IntroStore = Object.assign(EventEmitter.prototype, {
             callback();
         });
 
-        
         Alert.closeAll();
         intro.start();
 
-        $('.introjs-skipbutton').hide();
-  
-        
+        $('.noSkipButton .introjs-skipbutton').hide();
     },
 
     clearIntro() {
