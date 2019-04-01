@@ -9,7 +9,7 @@ import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import AccountStore from "./../../stores/AccountStore"
-
+import SessionStore from "./../../stores/SessionStore";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
 
@@ -37,9 +37,12 @@ class Search extends React.Component {
             element.parentElement.removeChild(element);
         }
     }
+    
 
     render() {
-        const etherpad_url = 'http://csal.ewi.tudelft.nl/p/' + AccountStore.getGroupId() + '?userName=' + AccountStore.getGroupId() +  '&showLineNumbers=false&showControls=false';
+        console.log(SessionStore.getMemberColor(AccountStore.getUserId() ));
+        const etherpad_url = 'http://csal.ewi.tudelft.nl/p/' + AccountStore.getGroupId() + "?userColor=" + SessionStore.getMemberColor(AccountStore.getUserId() )
+            + '&userName=' + AccountStore.getUserId() +  '&showLineNumbers=false&showControls=false';
         return (
             <div className="Search">
                 <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
@@ -58,7 +61,7 @@ class Search extends React.Component {
                     </div>
 
                     
-                    <div className="Workspace"><iframe src={etherpad_url} width="100%" height="90%" frameborder="1" ></iframe></div>
+                    <div className="Workspace"><iframe src={etherpad_url} width="100%" height="600px" frameBorder="1" ></iframe></div>
                     
                     
 

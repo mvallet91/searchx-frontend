@@ -333,13 +333,8 @@ const _getById = function (id) {
                 } else {
                     state.activeUrl = result.id;
                 }
-
-                let text = result.text.split( "\r\n\r\n");
-                if (text.length == 1) {
-                    text= text[0];
-                }  else {
-                    text = text[1];
-                }
+                state.activeDoctext = result.text;
+                SearchStore.emitChange();
             }
         });
 };
