@@ -18,6 +18,7 @@ export default class Viewer extends React.Component  {
     }
 
     render() {
+        
         if (this.props.url === "") {
             return <div/>
         }
@@ -47,18 +48,14 @@ export default class Viewer extends React.Component  {
                 document.getElementById("viewer-content-loader").style.display = "none";
             }
         };
-        let openInBrowser = () => {
-            log(LoggerEventTypes.DOCUMENT_OPEN_BROWSER, metaInfo);
-            window.open(this.props.url);
-        };
     
         let scrollDocument = () => {
             log(LoggerEventTypes.DOCUMENT_SCROLL, metaInfo);
         };
 
-    
         return (
-            <Modal width="95%" height="90%">
+            
+            <Modal width="75%" height="80%">
                 <div className="viewer" onMouseEnter={hoverEnterDocument} onMouseLeave={hoverLeaveDocument}
                      onScroll={scrollDocument}>
                     <div className="header">
@@ -66,7 +63,7 @@ export default class Viewer extends React.Component  {
     
                         <div className="pull-right">
                             {!this.props.doctext && [
-                                <span className="forward" onClick={openInBrowser}>open in browser</span>,
+                                
                                 <span className="divider"/>
                             ]}
                             {config.interface.ratings && [
