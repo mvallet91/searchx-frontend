@@ -11,6 +11,7 @@ import Modal from "../../../../common/Modal";
 
 import config from '../../../../../config';
 
+
 export default class Viewer extends React.Component  {
     constructor(props) {
         super(props);

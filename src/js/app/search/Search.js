@@ -8,11 +8,17 @@ import SearchHeaderContainer from './header/SearchHeaderContainer';
 import SearchResultsContainer from "./results/SearchResultsContainer";
 import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer";
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
+import AccountStore from "./../../stores/AccountStore"
+
 import Chat from "./features/chat/Chat";
 import config from "../../config";
-import SuggestionsContainer from "./features/querysuggestions/SuggestionsContainer";
+
+
 
 class Search extends React.Component {
+    
+   
+
     componentDidMount() {
         if (this.props.firstSession && config.interface.chat && this.props.collaborative) {
             sessionStorage.clear();
@@ -33,6 +39,7 @@ class Search extends React.Component {
     }
 
     render() {
+        const etherpad_url = 'http://csal.ewi.tudelft.nl/p/' + AccountStore.getGroupId() + '?userName=' + AccountStore.getGroupId() +  '&showLineNumbers=false&showControls=false';
         return (
             <div className="Search">
                 <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
@@ -45,9 +52,15 @@ class Search extends React.Component {
                     </div>
 
                     <div className="Side">
-                        <QueryHistoryContainer collaborative={this.props.collaborative}/>
-                        <BookmarkContainer collaborative={this.props.collaborative}/>
+                    <QueryHistoryContainer></QueryHistoryContainer>
+                    <BookmarkContainer></BookmarkContainer>
+                   
                     </div>
+
+                    
+                    <div className="Workspace"><iframe src={etherpad_url} width="100%" height="90%" frameborder="1" ></iframe></div>
+                    
+                    
 
                     {this.props.taskDescription && (
                         <div className="Side">

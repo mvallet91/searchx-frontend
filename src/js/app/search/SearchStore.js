@@ -334,11 +334,13 @@ const _getById = function (id) {
                     state.activeUrl = result.id;
                 }
 
-                state.activeDoctext = result.text;
+                let text = result.text.split( "\r\n\r\n");
+                if (text.length == 1) {
+                    text= text[0];
+                }  else {
+                    text = text[1];
+                }
             }
-
-            SyncStore.emitViewState(id);
-            SearchStore.emitChange();
         });
 };
 

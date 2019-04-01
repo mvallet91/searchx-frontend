@@ -18,7 +18,7 @@ const providerVerticals = {
         ['text', TextSearchResult],
     ]),
     'indri': new Map([
-        ['CW12B', TextSearchResult]
+        ['Wikipedia', TextSearchResult]
     ])
 };
 
