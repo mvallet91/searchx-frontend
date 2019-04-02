@@ -15,6 +15,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
     getUserId() {
         return state.userId;
     },
+
     getSessionId() {
         return state.sessionId;
     },
@@ -64,6 +65,7 @@ const AccountStore = Object.assign(EventEmitter.prototype, {
 
     clearUserData() {
         state.userId = '';
+        state.userName = '';
         state.sessionId = '';
         localStorage.clear();
     }
@@ -91,6 +93,7 @@ if (!state.sessionId) {
     const id = Helpers.generateId();
     AccountStore.setSessionId(id);
     AccountStore.setGroupId(id);
+
 }
 
 export default AccountStore;

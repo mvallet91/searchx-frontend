@@ -40,9 +40,8 @@ class Search extends React.Component {
     
 
     render() {
-        console.log(SessionStore.getMemberColor(AccountStore.getUserId() ));
         const etherpad_url = 'http://csal.ewi.tudelft.nl/p/' + AccountStore.getGroupId() + "?userColor=" + SessionStore.getMemberColor(AccountStore.getUserId() )
-            + '&userName=' + AccountStore.getUserId() +  '&showLineNumbers=false&showControls=false';
+            + '&userName=' + SessionStore.getUserName(AccountStore.getUserId()) +  '&showLineNumbers=false&showControls=false';
         return (
             <div className="Search">
                 <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>

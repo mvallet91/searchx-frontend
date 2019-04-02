@@ -23,17 +23,29 @@ const SessionStore = Object.assign(EventEmitter.prototype, {
         });
     },
 
+    getUserName(userId) {
+        if (state.group.members === '') {
+            return userId;
+        } else {
+            if (userId in state.group.members) {
+                 return state.group.members[userId].userName;
+            } else {
+                return userId;
+            }
+        }
+    },
+
     getMemberColor(userId) {
         if (state.group.members === '') {
             let memberColors = JSON.parse(localStorage.getItem('visited-urls'));
             if (memberColors) {
                 if (!memberColors[userId]) {
-                    memberColors[userId] = randomcolor({luminosity: 'dark'});
+                    memberColors[userId] = randomcolor({luminosity: 'light'});
                     localStorage.setItem('visited-urls', JSON.stringify(memberColors));
                 }
             } else {
                 memberColors = {};
-                memberColors[userId] = randomcolor({luminosity: 'dark'});
+                memberColors[userId] = randomcolor({luminosity: 'light'});
                 localStorage.setItem('visited-urls', JSON.stringify(memberColors));
             }
             return memberColors[userId];

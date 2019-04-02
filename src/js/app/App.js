@@ -19,15 +19,12 @@ import SyncSession from './tasks/example-group-sync/Session';
 import AsyncRegister from './tasks/example-group-async/Register';
 import AsyncFeedback from './tasks/example-group-async/Feedback';
 import AsyncSession from './tasks/example-group-async/Session';
-import PilotRegister from './tasks/algorithmic-mediation-pilot/Register';
-import PilotWait from './tasks/algorithmic-mediation-pilot/Wait';
-import PilotSession1 from './tasks/algorithmic-mediation-pilot/Session1';
-import PilotDescription1 from './tasks/algorithmic-mediation-pilot/TaskDescription1';
-import PilotSession2 from './tasks/algorithmic-mediation-pilot/Session2';
-import PilotDescription2 from './tasks/algorithmic-mediation-pilot/TaskDescription2';
-import PilotSession3 from './tasks/algorithmic-mediation-pilot/Session3';
-import PilotDescription3 from './tasks/algorithmic-mediation-pilot/TaskDescription3';
-import PilotPostTest from './tasks/algorithmic-mediation-pilot/PostTest';
+
+import CollabWorkspaceRegister from './tasks/collab-workspace/Register';
+import CollabWorkspaceWait from './tasks/collab-workspace/Wait';
+import CollabWorkspaceSession from './tasks/collab-workspace/Session';
+import CollabWorkspaceDescription from './tasks/collab-workspace/TaskDescription';
+import CollabWorkspacePostTest from './tasks/collab-workspace/PostTest';
 
 export class App extends React.Component {
     componentWillMount(){
@@ -60,15 +57,11 @@ export class App extends React.Component {
                     <Route exact path="/async/feedback" component={AsyncFeedback}/>
                     <Route path="/async/session" component={AsyncSession}/>
 
-                    <Route exact path="/pilot" component={PilotRegister}/>
-                    <Route exact path="/pilot/wait" component={PilotWait}/>
-                    <Route path="/pilot/session1" component={PilotSession1}/>
-                    <Route path="/pilot/description1" component={PilotDescription1}/>
-                    <Route path="/pilot/session2" component={PilotSession2}/>
-                    <Route path="/pilot/description2" component={PilotDescription2}/>
-                    <Route path="/pilot/session3" component={PilotSession3}/>
-                    <Route path="/pilot/description3" component={PilotDescription3}/>
-                    <Route exact path="/pilot/posttest" component={PilotPostTest}/>
+                    <Route exact path="/collab-workspace" component={CollabWorkspaceRegister}/>
+                    <Route exact path="/collab-workspace/wait" component={CollabWorkspaceWait}/>
+                    <Route path="/collab-workspace/session" component={CollabWorkspaceSession}/>
+                    <Route path="/collab-workspace/description" component={CollabWorkspaceDescription}/>
+                    <Route exact path="/collab-workspace/posttest" component={CollabWorkspacePostTest}/>
                 </div>
             </Router>
         );
