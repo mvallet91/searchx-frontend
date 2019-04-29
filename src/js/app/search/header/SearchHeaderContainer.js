@@ -40,6 +40,7 @@ export default class SearchHeaderContainer extends React.Component {
             queryChangeHandler={this.queryChangeHandler}
             verticalChangeHandler={this.verticalChangeHandler}
             timer={this.props.timer}
+            taskDescription={this.props.taskDescription}
             showAccountInfo={this.props.showAccountInfo}
             hideSuggestionsHandler={this.hideSuggestionsHandler}
             showSuggestionsHandler={this.showSuggestionsHandler}
@@ -48,6 +49,7 @@ export default class SearchHeaderContainer extends React.Component {
             // these props do not update to changes
             userId={AccountStore.getUserId()}
             groupId={AccountStore.getGroupId()}
+            
         />
     }
 

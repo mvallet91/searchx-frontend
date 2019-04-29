@@ -78,28 +78,157 @@ const formData = function(returnCode) {
         html: `<h2>Exit Questionnaire</h2>`
     });
 
-
     elements.push({
         type: "html",
         name: "collab-feedback-description",
-        html: "<b>We would like you to describe your search experience.</b>"
+        html: "<b>We would like you to answer some questions about reducing air pollution.</b>"
+    });
+
+
+    elements.push({
+        title: 'Which of these is not one of the six major pollutants regulated by the clean air act?',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q1",
+        choices: ["a) lead", "b) carbon monoxide", "c) carbon dioxide", "d) ozone"]
+    });
+
+
+    elements.push({
+        title: 'A catalyst ___ a chemical reaction.',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q2",
+        choices: ["a) speeds up", "b) slows down", "c) keeps constant", "d) none of the above"]
+    });
+
+
+    elements.push({
+        title: 'Catalytic converters',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q3",
+        choices: ["a) break down nitrous oxides, carbon monoxide, and vocs.", "b) break down pollutants the entire time the car is running."
+        , "c) make the car more fuel efficient." , "d) all of the above."]
+    });
+
+
+    elements.push({
+        title: 'In a hybrid vehicle, the car is powered by',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q4",
+        choices: ["a) an internal combustion engine.", "b) a battery that is charged by energy collected during braking.", "c) electricity.", "d) a & b"]
+    });
+
+
+    elements.push({
+        title: 'Plug-in hybrids run for a longer time on electricity than regular hybrids.',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q5",
+        choices: ["a) True", "b) False"]
+    });
+
+   
+    elements.push({
+        title: 'A fuel cell converts chemical energy into _______.',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q5",
+        choices: ["a) nuclear energy", "b) electrical energy", "c) solar energy", "d) hydrological energy"]
+    });
+
+
+    elements.push({
+        title: 'Before being released from power plants, sulfur and nitric oxides',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q6",
+        choices: ["a) can be filtered out.", "b) can be neutralized with bases.", "c) can be broken down by catalysts.", "d) all of these."]
+    });
+    
+
+    elements.push({
+        title: 'These help to remove particles and waste gases from exhaust using liquids or neutralizing materials.',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q7",
+        choices: ["a) filters", "b) water treatment", "c) fans", "d) scrubbers"]
+    });
+
+    elements.push({
+        title: 'In gasification, this rock is heated to extremely high temperature to create syngas, which is then filtered.',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q8",
+        choices: ["a) granite", "b) coal", "c) limestone", "d) halite"]
+    });
+
+
+    elements.push({
+        title: 'The six major pollutants have decreased by more than 50% since the clean air act of 1970 was implemented.',
+        type: "radiogroup",
+        isRequired: true,
+        name: "Q5",
+        choices: ["a) True", "b) False"]
     });
     
 
 
     elements.push({
-        title: "How many people did you just now collaborate with (not including yourself)?",
-        name: "collaborate-number",
-        type: "text",
-        width: 600,
-        inputType: "number",
-        isRequired: true
+        type: "html",
+        name: "topic",
+        html: `<h2>Your Task Experience</h2>`
     });
 
+    elements.push({
+        type: "html",
+        name: "collab-feedback-description",
+        html: "<b>We would like you to describe your task experience.</b>"
+    });
 
     elements.push({
-        title: "The color coding of the query history and bookmarks made sense to me.",
-        name: "color-coding",
+        title: "During the task, I had a pretty good idea about what my partner was searching for.",
+        name: "awareness-1",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
+        title: "During the task, I had a pretty good idea about what my partner was writing.",
+        name: "awareness-2",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
+        title: "During the task, I was confident that my partner was looking at information I would find valuable for completing the task.",
+        name: "awareness-3",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    elements.push({
+        title: "During the task, I was confident that I was looking at information my partner would find valuable for completing the task.",
+        name: "awareness-4",
+        type: "rating",
+        isRequired: true,
+        minRateDescription: "Disagree",
+        maxRateDescription: "Agree"
+    });
+
+    
+
+    elements.push({
+        title: "It was easy to share information with my partner during the task.",
+        name: "effort-1",
         type: "rating",
         isRequired: true,
         minRateDescription: "Disagree",
@@ -108,8 +237,8 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        title: "It was easy to understand why documents were retrieved in response to my queries.",
-        name: "easy",
+        title: "It was easy for my partner and I to coordinate our efforts during this task.",
+        name: "effort-2",
         type: "rating",
         isRequired: true,
         minRateDescription: "Disagree",
@@ -118,8 +247,8 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        title: "I didn't notice any inconsistencies when I used the system.",
-        name: "inconsistencies",
+        title: "It was easy to communicate with my partner during this task.",
+        name: "effort-3",
         type: "rating",
         isRequired: true,
         minRateDescription: "Disagree",
@@ -128,14 +257,13 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        title: "It was easy to determine if a document was relevant to a task.",
-        name: "relevance",
+        title: "It was easy for my partner and I to reach consensus during this task.",
+        name: "effort-3",
         type: "rating",
         isRequired: true,
         minRateDescription: "Disagree",
         maxRateDescription: "Agree"
     });
-
 
     elements.push({
         title: "How difficult was this task?",
@@ -149,49 +277,15 @@ const formData = function(returnCode) {
 
 
     elements.push({
-        type: "html",
-        name: "collab-feedback-description",
-        html: "<b>We would also like you to describe your experience in collaborating with your partner.</b>"
-    });
-
-    elements.push({
-        title: "Did you find the collaborative features useful?",
-        name: "collab-rating",
-        type: "matrix",
+        title: "Overall, how satisfied are you with your solution to this task?",
+        name: "task-completion",
+        type: "rating",
         isRequired: true,
-        isAllRowRequired: true,
-
-        columns: [
-            {
-                value: 1,
-                text: "Strongly Disagree"
-            }, {
-                value: 2,
-                text: "Disagree"
-            }, {
-                value: 3,
-                text: "Neutral"
-            }, {
-                value: 4,
-                text: "Agree"
-            }, {
-                value: 5,
-                text: "Strongly Agree"
-            }
-        ],
-        rows: [
-            {
-                value: "query-history",
-                text: "Recent queries"
-            }, {
-                value: "bookmarks",
-                text: "Saved documents"
-            }, {
-                value: "hidden-results",
-                text: "Hiding saved and excluded results"
-            }
-        ]
+        minRateDescription: "Very easy",
+        maxRateDescription: "Very difficult"
     });
+
+
 
     elements.push({
         title: "Do you have any additional comments regarding SearchX?",
@@ -202,6 +296,8 @@ const formData = function(returnCode) {
         isRequired: true
     });
 
+
+    
 
     pages.push({elements:  elements});
 

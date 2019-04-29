@@ -5,10 +5,11 @@ import Logo from './Logo';
 import SearchBox from './SearchBox';
 import SearchVerticals from './SearchVerticals';
 import AccountInfo from "./AccountInfo";
-import SuggestionsContainer from "../../features/querysuggestions/SuggestionsContainer";
 
 
-const Header = function ({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, userId, groupId, showAccountInfo, hideSuggestionsHandler, showSuggestionsHandler, clickSuggestionHandler, showSuggestions}) {
+
+const Header = function ({query, vertical, provider, searchHandler, queryChangeHandler, verticalChangeHandler, timer, taskDescription, userId, groupId, showAccountInfo, hideSuggestionsHandler, showSuggestionsHandler, clickSuggestionHandler, showSuggestions}) {
+    
     return (
         <div className="SearchHeader">
             <Logo/>
@@ -17,13 +18,16 @@ const Header = function ({query, vertical, provider, searchHandler, queryChangeH
                 searchHandler();
             }}>
                 <SearchBox query={query} changeHandler={queryChangeHandler} showSuggestionsHandler={showSuggestionsHandler}/>
+
                 <SearchVerticals query={query} activeVertical={vertical} changeHandler={verticalChangeHandler}
                                  provider={provider}/>
             </form>
             {showAccountInfo && <AccountInfo userId={userId} groupId={groupId}/>}
+            {taskDescription} 
             <div className="TimerDiv">
                 {timer}
             </div>
+           
         </div>
     )
 };

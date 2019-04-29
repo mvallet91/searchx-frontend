@@ -13,7 +13,8 @@ import Timer from "../components/Timer";
 import {log} from '../../../utils/Logger';
 import {LoggerEventTypes} from '../../../utils/LoggerEventTypes';
 import ReactAudioPlayer from 'react-audio-player';
-import $ from 'jquery';
+import Modal from "../../common/Modal";
+import Popup from 'reactjs-popup'
 
 
 class Session extends React.PureComponent {
@@ -67,9 +68,7 @@ class Session extends React.PureComponent {
             log(LoggerEventTypes.TASK_OPEN, metaInfo);
         };
 
-        let handleTaskClose = () => {
-            log(LoggerEventTypes.TASK_CLOSE, metaInfo);
-        };
+ 
 
         let waited = false;
         if (this.props.location.state) {
@@ -77,29 +76,61 @@ class Session extends React.PureComponent {
         }
 
 
+
         const taskDescription = (
-            <Collapsible open trigger="Your Task 1" transitionTime={3} onOpen={handleTaskOpen} onClose={handleTaskClose} >
+            
+            <Popup trigger={<button className="button-task"  onClick={handleTaskOpen} >Task Description </button>} open modal >
+            {close => (
+            <div className="viewer"  >
+          
+            <div className="header">
+            <div className="pull-right">
+                <span className="close" onClick = { () =>  {
+                
+                log(LoggerEventTypes.TASK_CLOSE, metaInfo);
+                close()
+            }
 
-                <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.data.topics[0].title}</strong> </font>.</p>
-                <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
-                    for <strong>as many useful documents (news articles) as possible</strong>.</p>
+            
+            
+        } ><i className="fa fa-times"/></span>
+          </div>
+          </div>
 
-                <p>Collect documents according to the following criteria:</p>
-                <strong> <font color="#33BEFF">
-                <p>{task.data.topics[0].description}</p>
-                </font> </strong>
+          <div className="content">
+    
+          <p> You want information about <strong><font color="#33BEFF"> air pollution and how to reduce it </font></strong>.
+                Your first stop is (naturally) Wikipedia. 
+                It turns out though, that there is no dedicated article on Wikipedia about <strong><font color="#33BEFF">the reduction of air pollution</font></strong>.
+            </p>
+            
+       
 
-                <br/>
+            <p> To help others, you have decided to contribute to Wikipedia and write this missing article. 
+                You are not doing this alone, but with one / two online collaborators. </p>
+ 
+            <p> We have created a dedicated search system, called SearchX, that allows you and your collaborators to search the existing Wikipedia pages together for relevant articles and pieces of information. 
+                Use only SearchX to find information that you need - do not switch to a different search engine like Google or Bing. </p>
 
+            <p> It is your and your collaborators’ task to compose an article about <strong><font color="#33BEFF">the reduction of air pollution</font></strong>, and more specifically about the following aspects of it: </p>
+            <strong><font color="#33BEFF">
+            <li> ways you can reduce air pollution, </li> 
 
-                <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
+            <li> with which technologies you can reduce air pollution, </li> 
+               
+            <li> which polluters exist, </li>
 
-                <hr/>
-
-                <font color="#9C9C9C"> <p> After 10 minutes the system will give your next search task. </p> </font>
-
-            </Collapsible>
-        );
+            <li> and laws about the reduction of air pollution.</li>
+            </font></strong>
+        <p> 
+            You are free to copy and paste relevant passages from the articles you found and arrange them on the workspace to your right as you see fit. You are also free to rewrite the collected information as you see fit. Both you and your collaborators will collaboratively write the article in the workpad on the right of the search screen.
+        </p>
+</div>
+          </div>
+           )}
+            
+          </Popup>
+         );
 
         return (
             <div>

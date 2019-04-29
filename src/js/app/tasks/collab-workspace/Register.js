@@ -71,17 +71,23 @@ const formData = function() {
                 <a href="https://www.whatismybrowser.com/" target="_blank">Check here</a> if the version of your browser meets our requirements:
                 Google Chrome version 47 (or higher) and Mozilla Firefox version 44 (or higher).
             </li>
+            <li>
+                Mininum screen resolution: 1280×800. 
+            </li>
         </ol>
         
         <hr/>
 
-        <h3>
-            In this study, you are tasked with searching a collection of news articles with fellow users. You will be given three different topics to work on and each takes about 10 minutes to complete. At the end we have an exit questionnaire for you. 
-        </h3>
-
-
+        <h3> This study consist of three steps: </h3>
+            <ol type="1">
+            <li>Pre-Study Questionnaire: we will ask you about you and your previous experience. </li>
+            <li>Main task: we will give you our search system, SearchX, and we would like to complete a task using this system.</li>
+            <li> Post-Study Questionnaire: we will ask you about your experience with our system and also questions about the task. </li>
+            </ol> 
+            
         <hr/>
-        <h3>You will need approximately 45 minutes to complete the whole study.</h3>
+
+        <h3>You will need approximately 30 minutes to complete the whole study.</h3>
         `
     });
 
@@ -234,11 +240,72 @@ const formData = function() {
         });
 
         elements.push({
+            title: "Which resources did you use to share what you found during your search?",
+            name: "collab-information-need",
+            type: "comment",
+            inputType: "text",
+            width: 600,
+            rows: 1,
+            isRequired: true
+        });
+
+
+        elements.push({
+            title: "With how many others did you collaborate (not including yourself)?",
+            name: "collab-members",
+            type: "text",
+            width: 600,
+            inputType: "number",
+            isRequired: true
+        });
+
+        elements.push({
             type: "html",
             html: "<hr/>"
         });
 
         pages.push({elements:  elements});
+
+        elements = [];
+
+
+        elements.push({
+            title: "How interested are you to learn more about air pollution and how to reduce it?",
+            name: "interest",
+            type: "rating",
+            isRequired: true,
+            minRateDescription: "Very",
+            maxRateDescription: "Not at all"
+        });
+    
+
+        elements.push({
+            title: "How many times have you searched for information about air pollution and how to reduce it?",
+            name: "collab-members",
+            type: "text",
+            width: 600,
+            inputType: "number",
+            isRequired: true
+        });
+
+
+        elements.push({
+            title: "How much do you know about air pollution and how to reduce it?",
+            name: "interest",
+            type: "rating",
+            isRequired: true,
+            minRateDescription: "Very",
+            maxRateDescription: "Not at all"
+        });
+     
+
+        elements.push({
+            type: "html",
+            html: "<hr/>"
+        });
+
+        pages.push({elements:  elements});
+
 
     return {
         pages: pages,

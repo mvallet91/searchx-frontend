@@ -42,9 +42,10 @@ class Search extends React.Component {
     render() {
         const etherpad_url = 'http://csal.ewi.tudelft.nl/p/' + AccountStore.getGroupId() + "?userColor=" + SessionStore.getMemberColor(AccountStore.getUserId() )
             + '&userName=' + SessionStore.getUserName(AccountStore.getUserId()) +  '&showLineNumbers=false&showControls=false';
-        return (
+            console.log(this.props.taskDescription);
+            return (
             <div className="Search">
-                <SearchHeaderContainer timer={this.props.timer} showAccountInfo={this.props.showAccountInfo}/>
+                <SearchHeaderContainer timer={this.props.timer} taskDescription={this.props.taskDescription} showAccountInfo={this.props.showAccountInfo}/>
 
                 <div className="Content">
                     <div className="Main">
@@ -54,21 +55,17 @@ class Search extends React.Component {
                     </div>
 
                     <div className="Side">
+            
                     <QueryHistoryContainer></QueryHistoryContainer>
                     <BookmarkContainer></BookmarkContainer>
-                   
+                    
                     </div>
 
                     
-                    <div className="Workspace"><iframe src={etherpad_url} width="100%" height="600px" frameBorder="1" ></iframe></div>
+                    
+                    <div className="Workspace"><iframe src={etherpad_url} width="100%" height="600px" frameBorder="1"></iframe></div>
                     
                     
-
-                    {this.props.taskDescription && (
-                        <div className="Side">
-                            {this.props.taskDescription}
-                        </div>
-                    )}
                 </div>
 
                 <div className="text-center">

@@ -70,19 +70,16 @@ class TaskDescription extends React.Component {
 
             <h3> Please read your task description:</h3>
             
-            <p>Imagine you are a reporter for a newspaper. Your editor has just told you to write a story about <font color="#33BEFF"> <strong>{task.topics[0].title}</strong> </font>.</p>
-                <p>There's a meeting in an hour, so your editor asks you and your colleagues to spend 10 minutes together and search
-                    for <strong>as many useful documents (news articles) as possible</strong>.</p>
+            <p> You want information about <strong> <font color="#33BEFF"> air pollution and how to reduce it </font> </strong>.
+                Your first stop is (naturally) Wikipedia. 
+                It turns out though, that there is no dedicated article on Wikipedia about <strong> <font color="#33BEFF"> the reduction of air pollution  </font> </strong> . </p>
+            <p> To help others, you have decided to contribute to Wikipedia and write this missing article. 
+                You are not doing this alone, but with one / two online collaborators. </p>
 
-                <p>Collect documents according to the following criteria:</p>
-                <strong> <font color="#33BEFF">
-                <p>{task.topics[0].description}</p>
-                </font> </strong>
+            <p> We have created a dedicated search system, called SearchX, that allows you and your collaborators to search the existing Wikipedia pages together for relevant articles and pieces of information. 
+                Use only SearchX to find information that you need - do not switch to a different search engine like Google or Bing. </p>
 
-                <br/>
-
-
-                <p> SearchX is a specialized search engine for news articles, use it to find relevant articles for the topic. Do not use any other Web search engine. </p>
+            
 
             <p> You will be redirected once the time is up!</p>
             <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/> 
