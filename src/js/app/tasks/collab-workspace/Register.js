@@ -270,7 +270,7 @@ const formData = function() {
             html: "<hr/>"
         });
 
-       // pages.push({elements:  elements});
+        pages.push({elements:  elements});
 
         elements = [];
 
@@ -279,8 +279,8 @@ const formData = function() {
             html: `<b>Let's consider a particular search topic such as air pollution and how to reduce it.</b> 
             
             <div align="center">
-            <div style="height: 220px; display: inline-block; background-image: url('img/air-pollution.jpg'); background-size: cover; background-position: center center;"></div>
-        </div>
+            <img src="img/air-pollution.jpg" height="200">
+            </div>
         `
         });
 
