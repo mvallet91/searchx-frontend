@@ -74,14 +74,13 @@ class TaskDescription extends React.Component {
                 Your first stop is (naturally) Wikipedia. 
                 It turns out though, that there is no dedicated article on Wikipedia about <strong> <font color="#33BEFF"> the reduction of air pollution  </font> </strong> . </p>
             <p> To help others, you have decided to contribute to Wikipedia and write this missing article. 
-                You are not doing this alone, but with one / two online collaborators. </p>
+                You are not doing this alone, but with one online collaborators. </p>
 
             <p> We have created a dedicated search system, called SearchX, that allows you and your collaborators to search the existing Wikipedia pages together for relevant articles and pieces of information. 
                 Use only SearchX to find information that you need - do not switch to a different search engine like Google or Bing. </p>
 
-            
-
-            <p> You will be redirected once the time is up!</p>
+            <p> In the next page you will walk through an introduction guide to our SearchX's search features.</p>
+            <p> Do not reload this page, you will be redirected once the time is up! </p>
             <Timer start={new Date()} duration={constants.taskDescriptionWait} onFinish={this.onFinish} style={{fontSize: '2em'}} showRemaining={true}/> 
         </div> )
     

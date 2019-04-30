@@ -80,9 +80,9 @@ const formData = function() {
 
         <h3> This study consist of three steps: </h3>
             <ol type="1">
-            <li>Pre-Study Questionnaire: we will ask you about you and your previous experience. </li>
-            <li>Main task: we will give you our search system, SearchX, and we would like to complete a task using this system.</li>
-            <li> Post-Study Questionnaire: we will ask you about your experience with our system and also questions about the task. </li>
+            <li>Questionnaire 1: we will ask you about you and your previous search experience. </li>
+            <li>Main task: you are provided with our search system called SearchX and complete a search task with it in collaboration with other online participant.</li>
+            <li>Questionnaire 2: we will ask another set of questions to answer.</li>
             </ol> 
             
         <hr/>
@@ -217,6 +217,7 @@ const formData = function() {
 
         elements.push({
             type: "html",
+            visibleIf: "{collab-previous} == 1",
             html: "<b> Think about the most recent time you collaborated with others to search the web. </b>"
         });
 
@@ -225,8 +226,9 @@ const formData = function() {
             name: "collab-information-need",
             type: "comment",
             inputType: "text",
+            visibleIf: "{collab-previous} == 1",
             width: 600,
-            rows: 1,
+            rows: 3,
             isRequired: true
         });
 
@@ -234,6 +236,7 @@ const formData = function() {
             title: "With how many others did you collaborate (not including yourself)?",
             name: "collab-members",
             type: "text",
+            visibleIf: "{collab-previous} == 1",
             width: 600,
             inputType: "number",
             isRequired: true
@@ -244,8 +247,9 @@ const formData = function() {
             name: "collab-information-need",
             type: "comment",
             inputType: "text",
+            visibleIf: "{collab-previous} == 1",
             width: 600,
-            rows: 1,
+            rows: 2,
             isRequired: true
         });
 
@@ -255,53 +259,68 @@ const formData = function() {
             name: "collab-members",
             type: "text",
             width: 600,
+            visibleIf: "{collab-previous} == 1",
             inputType: "number",
             isRequired: true
         });
 
         elements.push({
             type: "html",
+            visibleIf: "{collab-previous} == 1",
             html: "<hr/>"
         });
 
-        pages.push({elements:  elements});
+       // pages.push({elements:  elements});
 
         elements = [];
 
+        elements.push({
+            type: "html",
+            html: `<b>Let's consider a particular search topic such as air pollution and how to reduce it.</b> 
+            
+            <div align="center">
+            <div style="height: 220px; display: inline-block; background-image: url('img/air-pollution.jpg'); background-size: cover; background-position: center center;"></div>
+        </div>
+        `
+        });
+
+        
+
 
         elements.push({
-            title: "How interested are you to learn more about air pollution and how to reduce it?",
+            title: "How interested are you to learn more about this topic?",
             name: "interest",
             type: "rating",
             isRequired: true,
             minRateDescription: "Very",
             maxRateDescription: "Not at all"
         });
-    
+
 
         elements.push({
-            title: "How many times have you searched for information about air pollution and how to reduce it?",
-            name: "collab-members",
-            type: "text",
+            title: "How much do you know about this topic?",
+            name: "previous-know",
+            type: "rating",
+            isRequired: true,
+            minRateDescription: "Very",
+            maxRateDescription: "Not at all"
+        });
+
+        elements.push({
+            title: "Please, write down a few keywords/statements that you know about this topic.",
+            name: "previous-know-keywords",
+            type: "comment",
+            inputType: "text",
             width: 600,
-            inputType: "number",
+            rows: 3,
             isRequired: true
-        });
-
-
-        elements.push({
-            title: "How much do you know about air pollution and how to reduce it?",
-            name: "interest",
-            type: "rating",
-            isRequired: true,
-            minRateDescription: "Very",
-            maxRateDescription: "Not at all"
         });
      
 
         elements.push({
             type: "html",
-            html: "<hr/>"
+            html: "<hr/>",
+            visibleIf: "{collab-previous} == 1",
         });
 
         pages.push({elements:  elements});

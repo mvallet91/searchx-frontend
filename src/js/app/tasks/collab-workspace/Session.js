@@ -125,6 +125,10 @@ class Session extends React.PureComponent {
         <p> 
             You are free to copy and paste relevant passages from the articles you found and arrange them on the workspace to your right as you see fit. You are also free to rewrite the collected information as you see fit. Both you and your collaborators will collaboratively write the article in the workpad on the right of the search screen.
         </p>
+
+        <p> 
+            We give you <b>20 minutes</b> to complete this task, once the time is up, you will automatically be redirect to the second questionnaire. 
+        </p>
 </div>
           </div>
            )}
@@ -158,9 +162,9 @@ function getIntroSteps() {
 
     return [
             {
-                element: '.Collapsible__trigger',
-                intro:  "You can read the task description again here.",
-                position: "left"
+                element: '.SearchHeader',
+                intro:  "Please read the task description here. Close the button and continue the guide.",
+                position: "bottom-left"
             },
             {
                 element: '.SearchHeader',
@@ -195,7 +199,13 @@ function getIntroSteps() {
                 element: '.Side',
                 intro: 'The recent queries and saved documents are color-coded to show which collaborator initiated the action.',
                 position: 'left'
+            },
+            {
+                element: '.Workspace',
+                intro: 'With this shared editor you can write down together with the other participant. You can also use the chat to communicate with your partner.',
+                position: 'left'
             }
+
     ];
 }
 
