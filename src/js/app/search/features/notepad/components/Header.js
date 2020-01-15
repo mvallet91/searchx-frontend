@@ -1,22 +1,13 @@
 import React from "react";
 import './Notepad.pcss';
 
-const Header = function() {
+const Header = function(props) {
     return (
         <header>
-            <a href="javascript:;" onClick={this.props.onClick}>Click Me!</a>
+            <a href="javascript:void(0)"
+               onClick={props.onClick}>Shared Document</a>
         </header>
     );
 };
-
-// let Header = React.createClass({
-//     render: function() {
-//         return (
-//             <header>
-//                 <a href="javascript:;" onClick={this.props.onClick}>Click Me!</a>
-//             </header>
-//         );
-//     }
-// });
 
 export default Header;

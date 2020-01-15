@@ -10,7 +10,7 @@ import QueryHistoryContainer from "./features/queryhistory/QueryHistoryContainer
 import BookmarkContainer from "./features/bookmark/BookmarkContainer";
 import Chat from "./features/chat/Chat";
 import config from "../../config";
-import Parent from "./features/notepad/NotepadContainer";
+import NotepadContainer from "./features/notepad/NotepadContainer";
 
 class Search extends React.Component {
     constructor(props) {
@@ -58,7 +58,7 @@ class Search extends React.Component {
                     </div>
 
                     <div>
-                        <Parent />
+                        <NotepadContainer collaborative={this.props.collaborative} />
                     </div>
 
                     {this.props.taskDescription && (

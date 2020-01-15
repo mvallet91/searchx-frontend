@@ -1,13 +1,23 @@
 import React from 'react';
-import Iframe from 'react-iframe'
-
-
+import Notepad from './components/Notepad'
+import Header from "./components/Header";
 import './components/Notepad.pcss'
 
-export default class Parent extends React.Component {
+import AccountStore from "../../../../stores/AccountStore";
+
+function getPadUrl(){
+    let url = 'SearchXtesting';
+    if (AccountStore.getGroupId() === AccountStore.getSessionId()){
+        url = AccountStore.getGroupId();
+    }
+    return url;
+}
+
+export default class NotepadContainer extends React.Component {
     constructor(props) {
         super(props);
         this.handleViewSidebar = this.handleViewSidebar.bind(this);
+        this.padUrl = getPadUrl();
         this.state = {sidebarOpen: false};
     }
 
@@ -21,51 +31,10 @@ export default class Parent extends React.Component {
         return (
             <div className="Parent">
                 <Header onClick={this.handleViewSidebar} />
-                <SideBar isOpen={this.state.sidebarOpen} toggleSidebar={this.handleViewSidebar}/>
-                {/*<Content isOpen={this.state.sidebarOpen}/>*/}
+                <Notepad isOpen={this.state.sidebarOpen} toggleSidebar={this.handleViewSidebar} padUrl={this.padUrl}/>
             </div>
         );
     }
 };
 
-class Header extends React.Component {
-    render() {
-        return (
-            <header>
-                <a href="javascript:void(0)"
-                   onClick={this.props.onClick}>Shared Document</a>
-            </header>
-        );
-    }
-};
-
-class SideBar extends React.Component {
-    render() {
-        let sidebarClass = this.props.isOpen ? 'sidebar open' : 'sidebar';
-    return (
-            <div className={sidebarClass}>
-                <button onClick={this.props.toggleSidebar} className="sidebar-toggle">Hide Document</button>
-                <div>
-                    <Iframe url="https://beta.etherpad.org/p/SearchXtesting?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false"
-                            width="600px"
-                            height={window.innerHeight - 50}
-                            id="embed_readwrite"
-                            className="etherpadDoc"
-                            display="initial"
-                            position="relative"
-                            overflow="auto"/>
-                </div>
-            </div>
-        );
-    }
-};
-
-class Content extends React.Component {
-    render() {
-        let contentClass = this.props.isOpen ? 'content open' : 'content';
-        return (
-            <div className={contentClass}>I am content fill me up!</div>
-        );
-    }
-};
 

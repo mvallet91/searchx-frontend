@@ -1,30 +1,28 @@
 import './Notepad.pcss';
 import React from 'react';
+import Iframe from "react-iframe";
 
-const SideBar = function() {
-    const sidebarClass = this.props.isOpen ? 'sidebar open' : 'sidebar';
+
+const Notepad = function(props) {
+    const sidebarClass = props.isOpen ? 'sidebar open' : 'sidebar';
+    const padUrl = "https://beta.etherpad.org/p/" + props.padUrl + "?showControls=true&showChat=true&showLineNumbers=true&useMonospaceFont=false";
     return (
         <div className={sidebarClass}>
-            <div>I slide into view</div>
-            <div>Me too!</div>
-            <div>Meee Threeeee!</div>
-            <button onClick={this.props.toggleSidebar} className="sidebar-toggle">Toggle Sidebar</button>
+            <button onClick={props.toggleSidebar} className="sidebar-toggle">Hide Document</button>
+            <div>
+                <Iframe url={padUrl}
+                        width="600px"
+                        height={window.innerHeight - 50}
+                        id="embed_readwrite"
+                        className="etherpadDoc"
+                        display="initial"
+                        position="relative"
+                        overflow="auto"/>
+            </div>
         </div>
     );
 };
 
-// let SideBar = React.createClass({
-//     render: function() {
-//         let sidebarClass = this.props.isOpen ? 'sidebar open' : 'sidebar';
-//         return (
-//             <div className={sidebarClass}>
-//                 <div>I slide into view</div>
-//                 <div>Me too!</div>
-//                 <div>Meee Threeeee!</div>
-//                 <button onClick={this.props.toggleSidebar} className="sidebar-toggle">Toggle Sidebar</button>
-//             </div>
-//         );
-//     }
-// });
+export default Notepad;
 
-export default SideBar;
+
