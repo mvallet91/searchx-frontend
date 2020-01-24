@@ -4,8 +4,9 @@ import './Notepad.pcss';
 const Header = function(props) {
     return (
         <header>
-            <a href="javascript:void(0)"
-               onClick={props.onClick}>Shared Document</a>
+            <div className="btnSidebar">
+                <button onClick={props.onClick}>Shared Document</button>
+            </div>
         </header>
     );
 };
